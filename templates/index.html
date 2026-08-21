@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    SDMS
+{% endblock %}
+
+{% block main %}
+    <h1>Student Database Management System</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">City</th>
+                <th scope="col">Number</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in database %}
+                <tr>
+                    <td>{{ row["id"] }}</td>
+                    <td>{{ row["name"] }}</td>
+                    <td>{{ row["city"] }}</td>
+                    <td>{{ row["number"] }}</td>
+                    <td>
+                        <form action="/edit" method="post" style="display: inline;">
+                            <input type="hidden" name="id" value="{{ row['id'] }}">
+                            <input class="btn btn-warning" type="submit" value="Edit">
+                        </form>
+
+                        <form action="/delete" method="post" style="display: inline;">
+                            <input type="hidden" name="id" value="{{ row['id'] }}">
+                            <input class="btn btn-danger" type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete this record?');">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Export data as CSV button -->
+    <form action="/export" method="post">
+        <input type="hidden" name="user_id" id="exportUserId">
+        <input class="form-control mx-auto w-auto" type="submit" value="Export as CSV" onclick="setExportUserId()">
+    </form>
+
+    <script>
+        // JavaScript function to set the value of the hidden input field
+        function setExportUserId() {
+            // Get the user_id from the session
+            var user_id = "{{ session['user_id'] }}";
+
+            // Set the value of the hidden input field
+            document.getElementById('exportUserId').value = user_id;
+        }
+    </script>
+
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Edit
+{% endblock %}
+
+{% block main %}
+    <h1>Edit Info</h1>
+    <form action="/edit" method="post">
+        {% for row in database %}
+            <div class="mb-3">
+                <input type="hidden" name="id" value="{{ row['id'] }}">
+            </div>
+            <div class="mb-3">
+                <label for="name">Name:</label>
+                <input class="form-control" name="name" type="text" value="{{ row['name'] }}">
+            </div>
+            <div class="mb-3">
+                <label for="city">City:</label>
+                <input class="form-control" name="city" type="text" value="{{ row['city'] }}">
+            </div>
+            <div class="mb-3">
+                <label for="number">Number:</label>
+                <input class="form-control" name="number" type="number" value="{{ row['number'] }}">
+            </div>
+        {% endfor %}
+        <button class="btn btn-primary" type="submit">Edit Info</button>
+    </form>
+{% endblock %}
